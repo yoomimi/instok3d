@@ -37,6 +37,7 @@
   --text: #e9ecf5;
   --text-dim: #99a2b6;
   --text-soft: #cfd5e6;
+  --text-strong: #ffffff;
   --nav-bg: rgba(7,8,13,0.55);
   --hairline: rgba(255,255,255,0.07);
   --table-head: rgba(255,255,255,0.02);
@@ -52,6 +53,7 @@ html[data-theme="light"]{
   --text: #11131c;
   --text-dim: #5b6377;
   --text-soft: #2c3344;
+  --text-strong: #0b0d14;
   --nav-bg: rgba(255,255,255,0.72);
   --hairline: rgba(15,23,55,0.09);
   --table-head: rgba(15,23,55,0.035);
@@ -226,7 +228,7 @@ td:first-child,th:first-child{text-align:left}
 tbody tr:last-child td{border-bottom:none}
 tr.ours{background:linear-gradient(90deg, rgba(124,92,255,0.12), rgba(37,208,192,0.06)); font-weight:600}
 tr.ours td:first-child{color:var(--accent-2)}
-.best{color:#fff; font-weight:700}
+.best{color:var(--text-strong); font-weight:700}
 .tbl-title{font-weight:700; margin-bottom:8px; font-size:15px}
 .tbl-note{color:var(--text-dim); font-size:13px; margin:10px 2px 34px}
 
@@ -468,7 +470,7 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
     <h2 class="section-title">A scene is its objects, not its primitives</h2>
   </div>
   <div class="abstract-card reveal">
-    <p><span class="lead">A 3D scene is understood through its objects, not the primitives that compose them.</span> Yet feed-forward reconstruction methods output dense, unstructured sets of points or Gaussians, leaving object-level structure to be recovered after the fact. We propose a feed-forward framework that decomposes a scene into <b style="color:#fff">instance-structured 3D token groups</b> directly from unposed multi-view images — compact object-centric units from which reconstruction, segmentation, and manipulation all follow. Each token group consists of an <b style="color:#fff">instance token</b> that captures entity-level identity, paired with <b style="color:#fff">anchor tokens</b> that model local geometry and appearance and decode into 3D Gaussians. The token group is learned through differentiable rendering with joint reconstruction and segmentation supervision, <b style="color:#fff">without any 3D annotations</b>. Our feed-forward token groups surpass per-scene optimization baselines in class-agnostic instance segmentation while remaining competitive in novel view synthesis, and the same groups directly enable instance-level scene manipulation and open-vocabulary 3D instance retrieval.</p>
+    <p><span class="lead">A 3D scene is understood through its objects, not the primitives that compose them.</span> Yet feed-forward reconstruction methods output dense, unstructured sets of points or Gaussians, leaving object-level structure to be recovered after the fact. We propose a feed-forward framework that decomposes a scene into <b style="color:var(--text-strong)">instance-structured 3D token groups</b> directly from unposed multi-view images — compact object-centric units from which reconstruction, segmentation, and manipulation all follow. Each token group consists of an <b style="color:var(--text-strong)">instance token</b> that captures entity-level identity, paired with <b style="color:var(--text-strong)">anchor tokens</b> that model local geometry and appearance and decode into 3D Gaussians. The token group is learned through differentiable rendering with joint reconstruction and segmentation supervision, <b style="color:var(--text-strong)">without any 3D annotations</b>. Our feed-forward token groups surpass per-scene optimization baselines in class-agnostic instance segmentation while remaining competitive in novel view synthesis, and the same groups directly enable instance-level scene manipulation and open-vocabulary 3D instance retrieval.</p>
   </div>
 </section>
 
@@ -597,7 +599,7 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
   <div class="wrap">
     <div class="eyebrow">Results</div>
     <h2 class="section-title">Compact units, strong numbers</h2>
-    <p class="section-sub">Evaluated on ScanNet across reconstruction, feature lifting, and class-agnostic instance segmentation. <span style="color:#fff;font-weight:600">Bold = best.</span></p>
+    <p class="section-sub">Evaluated on ScanNet across reconstruction, feature lifting, and class-agnostic instance segmentation. <span style="color:var(--text-strong);font-weight:600">Bold = best.</span></p>
 
     <!-- Table 1 -->
     <div class="tbl-title">Table 1 · Reconstruction &amp; feature lifting (2 context views)</div>
@@ -614,7 +616,7 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
         </tbody>
       </table>
     </div>
-    <p class="tbl-note">Best feature-lifting mIoU on both source and target views, while storing semantics in <b style="color:#fff">&lt;100 instance tokens</b> instead of 131K per-pixel Gaussians — orders of magnitude more compact.</p>
+    <p class="tbl-note">Best feature-lifting mIoU on both source and target views, while storing semantics in <b style="color:var(--text-strong)">&lt;100 instance tokens</b> instead of 131K per-pixel Gaussians — orders of magnitude more compact.</p>
 
     <!-- Figure 3 · reconstruction -->
     <div style="margin-top:30px" class="media-frame reveal">
@@ -653,7 +655,7 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
         </tbody>
       </table>
     </div>
-    <p class="tbl-note">Best AP across all thresholds in a fully <b style="color:#fff">feed-forward</b> manner, while competing per-scene methods require costly per-scene optimization.</p>
+    <p class="tbl-note">Best AP across all thresholds in a fully <b style="color:var(--text-strong)">feed-forward</b> manner, while competing per-scene methods require costly per-scene optimization.</p>
 
     <!-- Figure 5 · class-agnostic instance segmentation -->
     <div style="margin-top:30px" class="media-frame reveal">
