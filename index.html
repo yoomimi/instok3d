@@ -329,7 +329,7 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
 }
 .tok-chip:hover{background:var(--card-hover)}
 .tok-chip .dot{width:14px; height:14px; border-radius:5px; flex:0 0 auto; box-shadow:0 0 0 1px rgba(0,0,0,0.15) inset}
-.tok-chip .tok-name{flex:1}
+.tok-chip .tok-name{flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .tok-chip .tok-id{font-family:var(--mono); font-size:11.5px; color:var(--text-dim)}
 .tok-chip .switch{
   width:38px; height:22px; border-radius:999px; background:var(--accent);
@@ -571,7 +571,7 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
           <img class="layer" data-tok="6" src="assets/demo/tok_06.png" alt="" />
           <img class="layer" data-tok="7" src="assets/demo/tok_07.png" alt="" />
         </div>
-        <span class="stage-tag">ScanNet · scene0688_00</span>
+        <span class="stage-tag">ScanNet · scene0694_01</span>
         <span class="drag-hint">drag to orbit ⟲</span>
         <span class="splat-status" id="splatStatus"><span class="spin"></span>loading 3D splats…</span>
       </div>
@@ -715,15 +715,17 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
 // Shared state: the 3D splat module (loaded later) overrides DEMO.apply.
 const DEMO = window.DEMO = {
   // file (ply) / qid / chip-name / chip-color / diorama depth (translateZ px)
+  // names are "Group N (instance)" — the model produces grouping, the parenthetical
+  // is a human read of what that group covers (not a semantic prediction).
   TOKENS: [
-    {file:'tok_00.ply', id:'062', name:'Floor',          color:'#c79a5b', z:-55},
-    {file:'tok_01.ply', id:'077', name:'Back wall',      color:'#b9bcc4', z:-68},
-    {file:'tok_02.ply', id:'036', name:'Utility cart',   color:'#7d8ea0', z: 58},
-    {file:'tok_03.ply', id:'099', name:'Wall / corner',  color:'#6b6f7a', z:-42},
-    {file:'tok_04.ply', id:'067', name:'Hanging bag',    color:'#5c5f55', z: 24},
-    {file:'tok_05.ply', id:'055', name:'Drawer cabinet', color:'#9c8b78', z: 14},
-    {file:'tok_06.ply', id:'083', name:'Wall hanging',   color:'#8a8f86', z:-14},
-    {file:'tok_07.ply', id:'017', name:'Hanging tote',   color:'#4f4f3f', z:  8},
+    {file:'tok_00.ply', id:'062', name:'Group 1', color:'#ea5959', z:13},
+    {file:'tok_01.ply', id:'041', name:'Group 2', color:'#5983ea', z:22},
+    {file:'tok_02.ply', id:'028', name:'Group 3', color:'#aeea59', z:-7},
+    {file:'tok_03.ply', id:'091', name:'Group 4', color:'#ea59d8', z:-27},
+    {file:'tok_04.ply', id:'055', name:'Group 5', color:'#59ead2', z:-12},
+    {file:'tok_05.ply', id:'099', name:'Group 6', color:'#eaa759', z:36},
+    {file:'tok_06.ply', id:'034', name:'Group 7', color:'#7d59ea', z:43},
+    {file:'tok_07.ply', id:'006', name:'Group 8', color:'#5fea59', z:-30},
   ],
   enabled: [], is3d: false, apply: null,
 };
@@ -749,7 +751,6 @@ const DEMO = window.DEMO = {
     chip.innerHTML =
       '<span class="dot" style="background:'+t.color+'"></span>'+
       '<span class="tok-name">'+t.name+'</span>'+
-      '<span class="tok-id">#'+t.id+'</span>'+
       '<span class="switch"></span>';
     chip.addEventListener('click', ()=>{
       const on = !chip.classList.toggle('off');
@@ -849,8 +850,8 @@ import * as GaussianSplats3D from '@mkkellogg/gaussian-splats-3d';
 
 const BASE = 'assets/demo/splat/';
 const REST = 'rest.ply';                       // background (non-token) gaussians, always on
-// scene0688_00 bbox centroid (from export) — used to frame the initial camera
-const C = [-0.854, -0.765, 2.082];
+// scene0694_01 bbox centroid (from export) — used to frame the initial camera
+const C = [-0.739, -0.612, 2.401];
 
 function hasWebGL2(){
   try { return !!document.createElement('canvas').getContext('webgl2'); }
@@ -870,7 +871,11 @@ function setStatus(txt, hide){
 
 async function boot(){
   if(!DEMO || !stage || !mount) return;
-  if(!hasWebGL2()){ setStatus('', true); return; }   // keep diorama fallback
+  if(location.protocol === 'file:'){            // file:// blocks fetch() of local .ply
+    setStatus('open via a local server for 3D splats', false);
+    return;                                     // keep the diorama fallback
+  }
+  if(!hasWebGL2()){ setStatus('WebGL2 unavailable — showing 2.5D preview', false); return; }
 
   let viewer;
   try {
@@ -880,7 +885,7 @@ async function boot(){
       dynamicScene: true,                   // allow add/remove after start()
       useBuiltInControls: true,             // orbit / zoom / pan
       cameraUp: [0, -1, 0],                 // scene is in a y-down camera frame
-      initialCameraPosition: [C[0] + 0.7, C[1] - 0.7, -0.6],
+      initialCameraPosition: [C[0] + 0.7, C[1] - 0.7, -0.6],  // front / above / right 3-4 view
       initialCameraLookAt: C,
       sphericalHarmonicsDegree: 0,
     });

@@ -1,61 +1,75 @@
 {
-  "scene": "scene0688_00",
+  "scene": "scene0694_01",
   "num_views": 2,
   "n_total": 32768,
+  "centroid": [
+    -0.7387493848800659,
+    -0.6120017766952515,
+    2.4014570713043213
+  ],
   "instances": [
     {
       "file": "tok_00.ply",
       "qid": 62,
-      "count": 5440,
-      "color": "#ea5959"
+      "count": 3712,
+      "color": "#ea5959",
+      "z": 13
     },
     {
       "file": "tok_01.ply",
-      "qid": 77,
-      "count": 4960,
-      "color": "#5983ea"
+      "qid": 41,
+      "count": 17088,
+      "color": "#5983ea",
+      "z": 22
     },
     {
       "file": "tok_02.ply",
-      "qid": 36,
+      "qid": 28,
       "count": 2496,
-      "color": "#aeea59"
+      "color": "#aeea59",
+      "z": -7
     },
     {
       "file": "tok_03.ply",
-      "qid": 99,
-      "count": 16608,
-      "color": "#ea59d8"
+      "qid": 91,
+      "count": 2336,
+      "color": "#ea59d8",
+      "z": -27
     },
     {
       "file": "tok_04.ply",
-      "qid": 67,
-      "count": 736,
-      "color": "#59ead2"
+      "qid": 55,
+      "count": 1984,
+      "color": "#59ead2",
+      "z": -12
     },
     {
       "file": "tok_05.ply",
-      "qid": 55,
-      "count": 704,
-      "color": "#eaa759"
+      "qid": 99,
+      "count": 1344,
+      "color": "#eaa759",
+      "z": 36
     },
     {
       "file": "tok_06.ply",
-      "qid": 83,
-      "count": 224,
-      "color": "#7d59ea"
+      "qid": 34,
+      "count": 832,
+      "color": "#7d59ea",
+      "z": 43
     },
     {
       "file": "tok_07.ply",
-      "qid": 17,
-      "count": 288,
-      "color": "#5fea59"
+      "qid": 6,
+      "count": 896,
+      "color": "#5fea59",
+      "z": -30
     },
     {
       "file": "rest.ply",
       "qid": -1,
-      "count": 1312,
-      "color": "#9aa3b8"
+      "count": 2080,
+      "color": "#9aa3b8",
+      "z": 0
     }
   ]
 }

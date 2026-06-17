@@ -33,7 +33,7 @@ Toggle button (sun/moon) in the top-right of the nav. Choice is saved to
 `localStorage`; first visit follows the OS `prefers-color-scheme`.
 
 ## Interactive token demo (`#demo`)
-Real ScanNet test scene (`scene0688_00`, 32 768 Gaussians) decomposed into 8
+Real ScanNet test scene (`scene0693_00`, 32 768 Gaussians) decomposed into 8
 instance token groups by the model.
 
 **Primary: real 3D Gaussian splats.** Loads the actual predicted Gaussians as
@@ -60,7 +60,7 @@ Splat plys are produced by `scripts/export_scene_splat.py` (reuses the
 
 ```bash
 conda run -n inst3d python scripts/export_scene_splat.py \
-    --scene scene0688_00 --topk 8 --out-dir project_page/assets/demo/splat --gpu 0
+    --scene scene0693_00 --topk 8 --out-dir project_page/assets/demo/splat --gpu 0
 ```
 
 INRIA 3DGS `.ply` format (degree-0 SH): `log(scale)`, `logit(opacity)`, wxyz quat,
