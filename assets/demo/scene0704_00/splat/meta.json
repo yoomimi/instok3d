@@ -1,0 +1,124 @@
+{
+  "scene": "scene0704_00",
+  "num_views": 2,
+  "n_total": 32768,
+  "centroid": [
+    -0.4545331299304962,
+    -0.4320755898952484,
+    1.1441419124603271
+  ],
+  "instances": [
+    {
+      "file": "tok_00.ply",
+      "qid": 77,
+      "count": 5568,
+      "color": "#ea5959",
+      "z": -3
+    },
+    {
+      "file": "tok_01.ply",
+      "qid": 62,
+      "count": 3712,
+      "color": "#5983ea",
+      "z": -10
+    },
+    {
+      "file": "tok_02.ply",
+      "qid": 55,
+      "count": 16672,
+      "color": "#aeea59",
+      "z": 53
+    },
+    {
+      "file": "tok_03.ply",
+      "qid": 60,
+      "count": 1984,
+      "color": "#ea59d8",
+      "z": 13
+    },
+    {
+      "file": "tok_04.ply",
+      "qid": 93,
+      "count": 1728,
+      "color": "#59ead2",
+      "z": 5
+    },
+    {
+      "file": "tok_05.ply",
+      "qid": 52,
+      "count": 1472,
+      "color": "#eaa759",
+      "z": 0
+    },
+    {
+      "file": "tok_06.ply",
+      "qid": 63,
+      "count": 544,
+      "color": "#7d59ea",
+      "z": -8
+    },
+    {
+      "file": "tok_07.ply",
+      "qid": 91,
+      "count": 352,
+      "color": "#5fea59",
+      "z": -47
+    },
+    {
+      "file": "tok_08.ply",
+      "qid": 6,
+      "count": 256,
+      "color": "#ea5989",
+      "z": 9
+    },
+    {
+      "file": "tok_09.ply",
+      "qid": 41,
+      "count": 128,
+      "color": "#59b4ea",
+      "z": 7
+    },
+    {
+      "file": "tok_10.ply",
+      "qid": 80,
+      "count": 96,
+      "color": "#deea59",
+      "z": -35
+    },
+    {
+      "file": "tok_11.ply",
+      "qid": 11,
+      "count": 64,
+      "color": "#cc59ea",
+      "z": -19
+    },
+    {
+      "file": "tok_12.ply",
+      "qid": 83,
+      "count": 96,
+      "color": "#59eaa1",
+      "z": -13
+    },
+    {
+      "file": "tok_13.ply",
+      "qid": 40,
+      "count": 32,
+      "color": "#ea7759",
+      "z": -39
+    },
+    {
+      "file": "tok_14.ply",
+      "qid": 59,
+      "count": 32,
+      "color": "#5965ea",
+      "z": -35
+    },
+    {
+      "file": "tok_15.ply",
+      "qid": 99,
+      "count": 32,
+      "color": "#8fea59",
+      "z": -2
+    }
+  ]
+}

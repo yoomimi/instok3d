@@ -281,6 +281,18 @@ html[data-theme="light"] .theme-toggle .moon{display:block}
 html[data-theme="light"] .theme-toggle .sun{display:none}
 
 /* ---------- interactive token demo ---------- */
+.scene-tabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px}
+.scene-tab{
+  font-family:var(--font); font-size:13.5px; font-weight:600; cursor:pointer;
+  padding:8px 16px; border-radius:999px; border:1px solid var(--card-border);
+  background:var(--card); color:var(--text-dim); transition:.18s;
+}
+.scene-tab:hover{background:var(--card-hover); color:var(--text)}
+.scene-tab.active{
+  color:#fff; border-color:transparent;
+  background:linear-gradient(110deg,var(--accent),#9d7bff);
+  box-shadow:0 6px 20px -8px rgba(124,92,255,0.6);
+}
 .demo-layout{display:grid; grid-template-columns:1.1fr 0.9fr; gap:28px; align-items:start}
 @media(max-width:820px){.demo-layout{grid-template-columns:1fr}}
 
@@ -557,24 +569,14 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
     <h2 class="section-title">Toggle the tokens, compose the scene</h2>
     <p class="section-sub">The actual 3D Gaussians our feed-forward model predicts for a ScanNet test scene, rendered as <b style="color:var(--text)">real Gaussian splats</b>. <b style="color:var(--text)">Drag to orbit</b>, scroll to zoom — and switch a token off to make exactly that instance disappear.</p>
 
+    <div class="scene-tabs" id="sceneTabs"><!-- scene buttons injected by JS --></div>
+
     <div class="demo-layout reveal">
       <!-- real 3D gaussian splats (mkkellogg) over a 2.5D diorama fallback -->
       <div class="demo-stage" id="demoStage">
         <div id="splatMount"></div>
-        <div class="diorama" id="diorama">
-          <img class="layer" data-tok="0" src="assets/demo/tok_00.png" alt="" />
-          <img class="layer" data-tok="1" src="assets/demo/tok_01.png" alt="" />
-          <img class="layer" data-tok="2" src="assets/demo/tok_02.png" alt="" />
-          <img class="layer" data-tok="3" src="assets/demo/tok_03.png" alt="" />
-          <img class="layer" data-tok="4" src="assets/demo/tok_04.png" alt="" />
-          <img class="layer" data-tok="5" src="assets/demo/tok_05.png" alt="" />
-          <img class="layer" data-tok="6" src="assets/demo/tok_06.png" alt="" />
-          <img class="layer" data-tok="7" src="assets/demo/tok_07.png" alt="" />
-          <img class="layer" data-tok="8" src="assets/demo/tok_08.png" alt="" />
-          <img class="layer" data-tok="9" src="assets/demo/tok_09.png" alt="" />
-          <img class="layer" data-tok="10" src="assets/demo/tok_10.png" alt="" />
-        </div>
-        <span class="stage-tag">ScanNet · scene0694_01</span>
+        <div class="diorama" id="diorama"><!-- per-scene layers injected by JS --></div>
+        <span class="stage-tag" id="stageTag">ScanNet · scene0694_01</span>
         <span class="drag-hint">drag to orbit ⟲</span>
         <span class="splat-status" id="splatStatus"><span class="spin"></span>loading 3D splats…</span>
       </div>
@@ -714,65 +716,127 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
   });
 })();
 
-// ---------- interactive token demo ----------
-// Shared state: the 3D splat module (loaded later) overrides DEMO.apply.
+// ---------- interactive token demo (multi-scene) ----------
+// Each scene: id (asset folder), label, C (camera centroid), tokens[].
+// Assets live at assets/demo/<id>/splat/<file>.ply and assets/demo/<id>/<file>.png
 const DEMO = window.DEMO = {
-  // file (ply) / qid / chip-name / chip-color / diorama depth (translateZ px)
-  // names are "Group N (instance)" — the model produces grouping, the parenthetical
-  // is a human read of what that group covers (not a semantic prediction).
-  TOKENS: [
-    {file:'tok_00.ply', id:'041', name:'Group 1',  color:'#ea5959', z:-35},
-    {file:'tok_01.ply', id:'028', name:'Group 2',  color:'#5983ea', z:-7},
-    {file:'tok_02.ply', id:'091', name:'Group 3',  color:'#aeea59', z:-27},
-    {file:'tok_03.ply', id:'055', name:'Group 4',  color:'#ea59d8', z:-12},
-    {file:'tok_04.ply', id:'099', name:'Group 5',  color:'#59ead2', z:36},
-    {file:'tok_05.ply', id:'034', name:'Group 6',  color:'#eaa759', z:43},
-    {file:'tok_06.ply', id:'071', name:'Group 7',  color:'#7d59ea', z:-16},
-    {file:'tok_07.ply', id:'011', name:'Group 8',  color:'#5fea59', z:3},
-    {file:'tok_08.ply', id:'060', name:'Group 9',  color:'#ea5989', z:-37},
-    {file:'tok_09.ply', id:'076', name:'Group 10', color:'#59b4ea', z:-23},
-    {file:'tok_10.ply', id:'050', name:'Group 11', color:'#deea59', z:-32},
+  SCENES: [
+    { id:'scene0694_01', label:'0694_01', note:'curated · 11 instances', C:[-0.015,-0.036,2.710], tokens:[
+      {file:'tok_00.ply', id:'041', name:'Group 1',  color:'#ea5959', z:-35},
+      {file:'tok_01.ply', id:'028', name:'Group 2',  color:'#5983ea', z:-7},
+      {file:'tok_02.ply', id:'091', name:'Group 3',  color:'#aeea59', z:-27},
+      {file:'tok_03.ply', id:'055', name:'Group 4',  color:'#ea59d8', z:-12},
+      {file:'tok_04.ply', id:'099', name:'Group 5',  color:'#59ead2', z:36},
+      {file:'tok_05.ply', id:'034', name:'Group 6',  color:'#eaa759', z:43},
+      {file:'tok_06.ply', id:'071', name:'Group 7',  color:'#7d59ea', z:-16},
+      {file:'tok_07.ply', id:'011', name:'Group 8',  color:'#5fea59', z:3},
+      {file:'tok_08.ply', id:'060', name:'Group 9',  color:'#ea5989', z:-37},
+      {file:'tok_09.ply', id:'076', name:'Group 10', color:'#59b4ea', z:-23},
+      {file:'tok_10.ply', id:'050', name:'Group 11', color:'#deea59', z:-32},
+    ]},
+    { id:'scene0704_00', label:'0704_00', note:'all valid · 16 instances', C:[-0.455,-0.432,1.144], tokens:[
+      {file:'tok_00.ply', id:'077', name:'Group 1',  color:'#ea5959', z:-3},
+      {file:'tok_01.ply', id:'062', name:'Group 2',  color:'#5983ea', z:-10},
+      {file:'tok_02.ply', id:'055', name:'Group 3',  color:'#aeea59', z:53},
+      {file:'tok_03.ply', id:'060', name:'Group 4',  color:'#ea59d8', z:13},
+      {file:'tok_04.ply', id:'093', name:'Group 5',  color:'#59ead2', z:5},
+      {file:'tok_05.ply', id:'052', name:'Group 6',  color:'#eaa759', z:0},
+      {file:'tok_06.ply', id:'063', name:'Group 7',  color:'#7d59ea', z:-8},
+      {file:'tok_07.ply', id:'091', name:'Group 8',  color:'#5fea59', z:-47},
+      {file:'tok_08.ply', id:'006', name:'Group 9',  color:'#ea5989', z:9},
+      {file:'tok_09.ply', id:'041', name:'Group 10', color:'#59b4ea', z:7},
+      {file:'tok_10.ply', id:'080', name:'Group 11', color:'#deea59', z:-35},
+      {file:'tok_11.ply', id:'011', name:'Group 12', color:'#cc59ea', z:-19},
+      {file:'tok_12.ply', id:'083', name:'Group 13', color:'#59eaa1', z:-13},
+      {file:'tok_13.ply', id:'040', name:'Group 14', color:'#ea7759', z:-39},
+      {file:'tok_14.ply', id:'059', name:'Group 15', color:'#5965ea', z:-35},
+      {file:'tok_15.ply', id:'099', name:'Group 16', color:'#8fea59', z:-2},
+    ]},
+    { id:'scene0698_01', label:'0698_01', note:'all valid · 26 instances', C:[-0.851,-0.763,2.626], tokens:[
+      {file:'tok_00.ply', id:'062', name:'Group 1',  color:'#ea5959', z:13},
+      {file:'tok_01.ply', id:'036', name:'Group 2',  color:'#5983ea', z:-9},
+      {file:'tok_02.ply', id:'099', name:'Group 3',  color:'#aeea59', z:36},
+      {file:'tok_03.ply', id:'028', name:'Group 4',  color:'#ea59d8', z:-49},
+      {file:'tok_04.ply', id:'077', name:'Group 5',  color:'#59ead2', z:-41},
+      {file:'tok_05.ply', id:'092', name:'Group 6',  color:'#eaa759', z:-49},
+      {file:'tok_06.ply', id:'083', name:'Group 7',  color:'#7d59ea', z:-51},
+      {file:'tok_07.ply', id:'091', name:'Group 8',  color:'#5fea59', z:-40},
+      {file:'tok_08.ply', id:'055', name:'Group 9',  color:'#ea5989', z:8},
+      {file:'tok_09.ply', id:'044', name:'Group 10', color:'#59b4ea', z:-20},
+      {file:'tok_10.ply', id:'071', name:'Group 11', color:'#deea59', z:-27},
+      {file:'tok_11.ply', id:'045', name:'Group 12', color:'#cc59ea', z:-24},
+      {file:'tok_12.ply', id:'020', name:'Group 13', color:'#59eaa1', z:-5},
+      {file:'tok_13.ply', id:'063', name:'Group 14', color:'#ea7759', z:-42},
+      {file:'tok_14.ply', id:'074', name:'Group 15', color:'#5965ea', z:-7},
+      {file:'tok_15.ply', id:'093', name:'Group 16', color:'#8fea59', z:-1},
+      {file:'tok_16.ply', id:'035', name:'Group 17', color:'#ea59ba', z:-32},
+      {file:'tok_17.ply', id:'086', name:'Group 18', color:'#59e4ea', z:-12},
+      {file:'tok_18.ply', id:'008', name:'Group 19', color:'#eac559', z:-40},
+      {file:'tok_19.ply', id:'059', name:'Group 20', color:'#9b59ea', z:4},
+      {file:'tok_20.ply', id:'041', name:'Group 21', color:'#59ea71', z:-48},
+      {file:'tok_21.ply', id:'025', name:'Group 22', color:'#ea596b', z:17},
+      {file:'tok_22.ply', id:'060', name:'Group 23', color:'#5996ea', z:-33},
+      {file:'tok_23.ply', id:'033', name:'Group 24', color:'#c0ea59', z:-41},
+      {file:'tok_24.ply', id:'014', name:'Group 25', color:'#ea59ea', z:5},
+      {file:'tok_25.ply', id:'038', name:'Group 26', color:'#59eabf', z:7},
+    ]},
   ],
-  enabled: [], is3d: false, apply: null,
+  TOKENS: [], enabled: [], active: 0, is3d: false, apply: null, viewer: null,
+  load3d: null, selectScene: null,
 };
 
 (function(){
-  const TOKENS = DEMO.TOKENS;
+  const SCENES = DEMO.SCENES;
   const list   = document.getElementById('tokList');
   const stage  = document.getElementById('demoStage');
   const dior   = document.getElementById('diorama');
+  const tabsEl = document.getElementById('sceneTabs');
+  const hintEl = document.querySelector('.demo-panel .hint');
+  const tagEl  = document.getElementById('stageTag');
   if(!list || !stage || !dior) return;
 
-  const layer = i => stage.querySelector('.layer[data-tok="'+i+'"]');
-  const Zmax = Math.max(...TOKENS.map(t=>Math.abs(t.z)));
-  DEMO.enabled = TOKENS.map(()=>true);
+  const pngOf = t => t.file.replace('.ply', '.png');
+  let flat = false;
 
-  // default apply = diorama layer on/off (overridden by the 3D module on success)
-  DEMO.apply = (i,on)=>{ layer(i).classList.toggle('off', !on); };
-
-  // -- build control chips --
-  TOKENS.forEach((t,i)=>{
-    const chip = document.createElement('div');
-    chip.className = 'tok-chip'; chip.dataset.tok = i;
-    chip.innerHTML =
-      '<span class="dot" style="background:'+t.color+'"></span>'+
-      '<span class="tok-name">'+t.name+'</span>'+
-      '<span class="switch"></span>';
-    chip.addEventListener('click', ()=>{
-      const on = !chip.classList.toggle('off');
-      DEMO.enabled[i] = on; DEMO.apply(i, on);
-    });
-    list.appendChild(chip);
+  // -- scene tabs --
+  SCENES.forEach((sc, si)=>{
+    const b = document.createElement('button');
+    b.className = 'scene-tab'; b.textContent = sc.label;
+    b.addEventListener('click', ()=>selectScene(si));
+    tabsEl && tabsEl.appendChild(b);
   });
+
+  // diorama on/off (fallback). Overridden by the 3D module to a visibility flip.
+  function dioramaApply(i, on){
+    const l = dior.querySelector('.layer[data-tok="'+i+'"]');
+    if(l) l.classList.toggle('off', !on);
+  }
+
+  function buildChips(sc){
+    list.innerHTML = '';
+    sc.tokens.forEach((t,i)=>{
+      const chip = document.createElement('div');
+      chip.className = 'tok-chip'; chip.dataset.tok = i;
+      chip.innerHTML =
+        '<span class="dot" style="background:'+t.color+'"></span>'+
+        '<span class="tok-name">'+t.name+'</span>'+
+        '<span class="switch"></span>';
+      chip.addEventListener('click', ()=>{
+        const on = !chip.classList.toggle('off');
+        DEMO.enabled[i] = on; DEMO.apply && DEMO.apply(i, on);
+      });
+      list.appendChild(chip);
+    });
+  }
   window.setAllTokens = (mode)=>{
     document.querySelectorAll('.tok-chip').forEach((chip,i)=>{
       const off = mode==='toggle' ? !chip.classList.contains('off') : (mode===false);
       chip.classList.toggle('off', off);
-      DEMO.enabled[i] = !off; DEMO.apply(i, !off);
+      DEMO.enabled[i] = !off; DEMO.apply && DEMO.apply(i, !off);
     });
   };
 
-  // -- key near-white background of each render to transparent (for clean 3D) --
+  // -- key near-white background of each render to transparent (for clean diorama) --
   function keyWhite(img){
     const c=document.createElement('canvas');
     c.width=img.naturalWidth; c.height=img.naturalHeight;
@@ -793,45 +857,59 @@ const DEMO = window.DEMO = {
     });
   }
 
-  let flat=false;
-  Promise.all(TOKENS.map((t,i)=>keyLayer(layer(i))))
-    .then(()=>start())
-    .catch(()=>{ flat=true; stage.classList.add('flat'); start(); });
-
-  // -- parallax / drag-to-rotate --
-  function start(){
-    if(!flat) TOKENS.forEach((t,i)=>{ layer(i).style.transform='translateZ('+t.z+'px)'; });
-
-    let tx=0,ty=0, cx=0,cy=0, dragging=false, raf=0;
-    const MAXY = flat?1:18, MAXP = flat?1:12;   // degrees in 3D; unit vector in flat
-
-    function fromEvent(e){
-      const r=stage.getBoundingClientRect();
-      const nx=((e.clientX-r.left)/r.width -0.5)*2;   // [-1,1]
-      const ny=((e.clientY-r.top )/r.height-0.5)*2;
-      tx = Math.max(-1,Math.min(1,nx)); ty = Math.max(-1,Math.min(1,ny));
-    }
-    function loop(){
-      cx += (tx-cx)*0.12; cy += (ty-cy)*0.12;
-      if(flat){
-        // multiplane translate parallax (no 3D context)
-        TOKENS.forEach((t,i)=>{
-          const dz=t.z/Zmax;
-          layer(i).style.transform='translate('+(-cx*dz*16).toFixed(2)+'px,'+(-cy*dz*12).toFixed(2)+'px)';
-        });
-      } else {
-        dior.style.transform='rotateY('+(cx*MAXY).toFixed(2)+'deg) rotateX('+(-cy*MAXP).toFixed(2)+'deg)';
-      }
-      if(Math.abs(tx-cx)>0.001||Math.abs(ty-cy)>0.001||dragging) raf=requestAnimationFrame(loop);
-      else raf=0;
-    }
-    function kick(){ if(!raf) raf=requestAnimationFrame(loop); }
-
-    stage.addEventListener('pointermove',(e)=>{ if(DEMO.is3d) return; if(!dragging && e.pointerType==='touch') return; fromEvent(e); stage.classList.add('touched'); kick(); });
-    stage.addEventListener('pointerdown',(e)=>{ if(DEMO.is3d) return; dragging=true; stage.classList.add('dragging','touched'); stage.setPointerCapture(e.pointerId); fromEvent(e); kick(); });
-    stage.addEventListener('pointerup',  (e)=>{ dragging=false; stage.classList.remove('dragging'); });
-    stage.addEventListener('pointerleave',()=>{ if(DEMO.is3d) return; if(!dragging){ tx=0; ty=0; kick(); } });
+  async function buildDiorama(sc){
+    dior.innerHTML = sc.tokens.map((t,i)=>
+      '<img class="layer" data-tok="'+i+'" data-z="'+t.z+'" src="assets/demo/'+sc.id+'/'+pngOf(t)+'" alt="" />'
+    ).join('');
+    const imgs = [...dior.querySelectorAll('.layer')];
+    try { await Promise.all(imgs.map(keyLayer)); flat = false; stage.classList.remove('flat'); }
+    catch(e){ flat = true; stage.classList.add('flat'); }
+    if(!flat) imgs.forEach(im => { im.style.transform = 'translateZ('+im.dataset.z+'px)'; });
   }
+
+  async function selectScene(si){
+    const sc = SCENES[si]; DEMO.active = si;
+    DEMO.TOKENS = sc.tokens; DEMO.enabled = sc.tokens.map(()=>true);
+    [...(tabsEl?tabsEl.children:[])].forEach((b,k)=>b.classList.toggle('active', k===si));
+    if(tagEl) tagEl.textContent = 'ScanNet · ' + sc.id;
+    if(hintEl) hintEl.textContent = sc.tokens.length+' instances ('+sc.note+') · drag to rotate · click to toggle';
+    buildChips(sc);
+    if(DEMO.is3d && DEMO.load3d){
+      try { await DEMO.load3d(sc); }
+      catch(e){ console.warn('[demo] 3D scene load failed, diorama fallback:', e);
+                DEMO.is3d=false; stage.classList.remove('mode3d'); DEMO.apply=dioramaApply; await buildDiorama(sc); }
+    } else {
+      DEMO.apply = dioramaApply;
+      await buildDiorama(sc);
+    }
+  }
+  DEMO.selectScene = selectScene;
+
+  // -- parallax / drag-to-rotate (handlers attached once; read layers live) --
+  let tx=0,ty=0, cx=0,cy=0, dragging=false, raf=0;
+  function fromEvent(e){
+    const r=stage.getBoundingClientRect();
+    tx = Math.max(-1,Math.min(1, ((e.clientX-r.left)/r.width -0.5)*2));
+    ty = Math.max(-1,Math.min(1, ((e.clientY-r.top )/r.height-0.5)*2));
+  }
+  function loop(){
+    cx += (tx-cx)*0.12; cy += (ty-cy)*0.12;
+    if(flat){
+      dior.querySelectorAll('.layer').forEach(l=>{ const dz=(+l.dataset.z)/60;
+        l.style.transform='translate('+(-cx*dz*16).toFixed(2)+'px,'+(-cy*dz*12).toFixed(2)+'px)'; });
+    } else {
+      dior.style.transform='rotateY('+(cx*18).toFixed(2)+'deg) rotateX('+(-cy*12).toFixed(2)+'deg)';
+    }
+    if(Math.abs(tx-cx)>0.001||Math.abs(ty-cy)>0.001||dragging) raf=requestAnimationFrame(loop);
+    else raf=0;
+  }
+  function kick(){ if(!raf) raf=requestAnimationFrame(loop); }
+  stage.addEventListener('pointermove',(e)=>{ if(DEMO.is3d) return; if(!dragging && e.pointerType==='touch') return; fromEvent(e); stage.classList.add('touched'); kick(); });
+  stage.addEventListener('pointerdown',(e)=>{ if(DEMO.is3d) return; dragging=true; stage.classList.add('dragging','touched'); stage.setPointerCapture(e.pointerId); fromEvent(e); kick(); });
+  stage.addEventListener('pointerup',  ()=>{ dragging=false; stage.classList.remove('dragging'); });
+  stage.addEventListener('pointerleave',()=>{ if(DEMO.is3d) return; if(!dragging){ tx=0; ty=0; kick(); } });
+
+  selectScene(0);   // initial (diorama until the 3D module takes over)
 })();
 
 // reveal on scroll
@@ -854,11 +932,6 @@ function copyBib(btn){
 <script type="module">
 import * as GaussianSplats3D from '@mkkellogg/gaussian-splats-3d';
 
-const BASE = 'assets/demo/splat/';
-const REST = 'rest.ply';                       // background (non-token) gaussians, always on
-// scene0694_01 bbox centroid (11 selected instances) — used to frame the initial camera
-const C = [-0.015, -0.036, 2.710];
-
 function hasWebGL2(){
   try { return !!document.createElement('canvas').getContext('webgl2'); }
   catch(e){ return false; }
@@ -875,59 +948,54 @@ function setStatus(txt, hide){
   status.classList.toggle('hide', !!hide);
 }
 
+function makeViewer(C){
+  return new GaussianSplats3D.Viewer({
+    rootElement: mount,
+    sharedMemoryForWorkers: false,        // no COOP/COEP headers needed on a plain server
+    dynamicScene: true,
+    useBuiltInControls: true,             // orbit / zoom / pan
+    cameraUp: [0, -1, 0],                 // scene is in a y-down camera frame
+    initialCameraPosition: [C[0] + 0.7, C[1] - 0.7, -0.6],  // front / above / right 3-4 view
+    initialCameraLookAt: C,
+    sphericalHarmonicsDegree: 0,
+    enableOptionalEffects: true,          // per-scene visibility uniform → flash-free toggle
+  });
+}
+
+// (Re)load a scene into a fresh viewer. Toggling never reloads — we just flip
+// each scene's visibility uniform (no black flash). Scene index i === tokens[i].
+DEMO.load3d = async (sc)=>{
+  setStatus('loading 3D splats…', false);
+  if(DEMO.viewer){ try { DEMO.viewer.dispose(); } catch(e){} DEMO.viewer = null; mount.innerHTML = ''; }
+  const v = makeViewer(sc.C);
+  const base = 'assets/demo/' + sc.id + '/splat/';
+  const opt = t => ({ path: base + t.file, splatAlphaRemovalThreshold: 0, progressiveLoad: false });
+  await v.addSplatScenes(sc.tokens.map(opt), false);
+  v.start();
+  DEMO.viewer = v;
+  DEMO.apply = (i, on)=>{ const s = v.getSplatScene ? v.getSplatScene(i) : null; if(s) s.visible = on; };
+  (DEMO.TOKENS || []).forEach((t,i)=>{ if(DEMO.enabled[i] === false){ const s=v.getSplatScene(i); if(s) s.visible=false; } });
+  setStatus('3D · real Gaussian splats', false);
+  clearTimeout(DEMO._st); DEMO._st = setTimeout(()=>setStatus('', true), 2000);
+};
+
 async function boot(){
-  if(!DEMO || !stage || !mount) return;
+  if(!DEMO || !stage || !mount || !DEMO.SCENES) return;
   if(location.protocol === 'file:'){            // file:// blocks fetch() of local .ply
     setStatus('open via a local server for 3D splats', false);
     return;                                     // keep the diorama fallback
   }
   if(!hasWebGL2()){ setStatus('WebGL2 unavailable — showing 2.5D preview', false); return; }
 
-  let viewer;
-  try {
-    viewer = new GaussianSplats3D.Viewer({
-      rootElement: mount,
-      sharedMemoryForWorkers: false,        // no COOP/COEP headers needed on a plain server
-      dynamicScene: true,                   // allow add/remove after start()
-      useBuiltInControls: true,             // orbit / zoom / pan
-      cameraUp: [0, -1, 0],                 // scene is in a y-down camera frame
-      initialCameraPosition: [C[0] + 0.7, C[1] - 0.7, -0.6],  // front / above / right 3-4 view
-      initialCameraLookAt: C,
-      sphericalHarmonicsDegree: 0,
-      enableOptionalEffects: true,          // enables per-scene visibility uniform (flash-free toggle)
-    });
-  } catch(e){ console.warn('[splat] viewer init failed:', e); setStatus('', true); return; }
-
-  const fileFor = i => DEMO.TOKENS[i].file;
-  const opt = f => ({ path: BASE + f, splatAlphaRemovalThreshold: 0, progressiveLoad: false });
-  let hasRest = false;                       // rest.ply may not exist (e.g. all gaussians assigned)
-  try { hasRest = (await fetch(BASE + REST, { method: 'HEAD' })).ok; } catch(e){ hasRest = false; }
-
-  // Load every token scene ONCE (scene index i === DEMO.TOKENS[i]); rest, if any,
-  // is appended last and stays always-visible. Toggling never reloads — we just
-  // flip each scene's visibility uniform, so there is no black flash.
-  try {
-    const files = [...DEMO.TOKENS.map((_, i) => fileFor(i)), ...(hasRest ? [REST] : [])];
-    await viewer.addSplatScenes(files.map(opt), false);
-    viewer.start();
-  } catch(e){
-    console.warn('[splat] load failed (falling back to diorama):', e);
-    setStatus('', true);
-    return;
-  }
-
-  // success → take over from the diorama
   DEMO.is3d = true;
-  DEMO.viewer = viewer;
   stage.classList.add('mode3d');
-  setStatus('3D · real Gaussian splats', false);
-  setTimeout(()=>setStatus('3D · real Gaussian splats', true), 2200);
-
-  // flash-free toggle: flip the scene's visibility (rendered via shader uniform)
-  DEMO.apply = (i, on) => {
-    const sc = viewer.getSplatScene ? viewer.getSplatScene(i) : null;
-    if(sc){ sc.visible = on; }
-  };
+  try {
+    await DEMO.load3d(DEMO.SCENES[DEMO.active || 0]);
+  } catch(e){
+    console.warn('[splat] init load failed, diorama fallback:', e);
+    DEMO.is3d = false; DEMO.load3d = null; stage.classList.remove('mode3d'); setStatus('', true);
+    DEMO.selectScene && DEMO.selectScene(DEMO.active || 0);
+  }
 }
 
 boot();

@@ -1,0 +1,194 @@
+{
+  "scene": "scene0698_01",
+  "num_views": 2,
+  "n_total": 32768,
+  "centroid": [
+    -0.850787878036499,
+    -0.7625694870948792,
+    2.6260721683502197
+  ],
+  "instances": [
+    {
+      "file": "tok_00.ply",
+      "qid": 62,
+      "count": 4032,
+      "color": "#ea5959",
+      "z": 13
+    },
+    {
+      "file": "tok_01.ply",
+      "qid": 36,
+      "count": 3456,
+      "color": "#5983ea",
+      "z": -9
+    },
+    {
+      "file": "tok_02.ply",
+      "qid": 99,
+      "count": 2464,
+      "color": "#aeea59",
+      "z": 36
+    },
+    {
+      "file": "tok_03.ply",
+      "qid": 28,
+      "count": 1408,
+      "color": "#ea59d8",
+      "z": -49
+    },
+    {
+      "file": "tok_04.ply",
+      "qid": 77,
+      "count": 832,
+      "color": "#59ead2",
+      "z": -41
+    },
+    {
+      "file": "tok_05.ply",
+      "qid": 92,
+      "count": 768,
+      "color": "#eaa759",
+      "z": -49
+    },
+    {
+      "file": "tok_06.ply",
+      "qid": 83,
+      "count": 544,
+      "color": "#7d59ea",
+      "z": -51
+    },
+    {
+      "file": "tok_07.ply",
+      "qid": 91,
+      "count": 608,
+      "color": "#5fea59",
+      "z": -40
+    },
+    {
+      "file": "tok_08.ply",
+      "qid": 55,
+      "count": 544,
+      "color": "#ea5989",
+      "z": 8
+    },
+    {
+      "file": "tok_09.ply",
+      "qid": 44,
+      "count": 320,
+      "color": "#59b4ea",
+      "z": -20
+    },
+    {
+      "file": "tok_10.ply",
+      "qid": 71,
+      "count": 224,
+      "color": "#deea59",
+      "z": -27
+    },
+    {
+      "file": "tok_11.ply",
+      "qid": 45,
+      "count": 192,
+      "color": "#cc59ea",
+      "z": -24
+    },
+    {
+      "file": "tok_12.ply",
+      "qid": 20,
+      "count": 160,
+      "color": "#59eaa1",
+      "z": -5
+    },
+    {
+      "file": "tok_13.ply",
+      "qid": 63,
+      "count": 128,
+      "color": "#ea7759",
+      "z": -42
+    },
+    {
+      "file": "tok_14.ply",
+      "qid": 74,
+      "count": 128,
+      "color": "#5965ea",
+      "z": -7
+    },
+    {
+      "file": "tok_15.ply",
+      "qid": 93,
+      "count": 64,
+      "color": "#8fea59",
+      "z": -1
+    },
+    {
+      "file": "tok_16.ply",
+      "qid": 35,
+      "count": 96,
+      "color": "#ea59ba",
+      "z": -32
+    },
+    {
+      "file": "tok_17.ply",
+      "qid": 86,
+      "count": 64,
+      "color": "#59e4ea",
+      "z": -12
+    },
+    {
+      "file": "tok_18.ply",
+      "qid": 8,
+      "count": 64,
+      "color": "#eac559",
+      "z": -40
+    },
+    {
+      "file": "tok_19.ply",
+      "qid": 59,
+      "count": 64,
+      "color": "#9b59ea",
+      "z": 4
+    },
+    {
+      "file": "tok_20.ply",
+      "qid": 41,
+      "count": 64,
+      "color": "#59ea71",
+      "z": -48
+    },
+    {
+      "file": "tok_21.ply",
+      "qid": 25,
+      "count": 32,
+      "color": "#ea596b",
+      "z": 17
+    },
+    {
+      "file": "tok_22.ply",
+      "qid": 60,
+      "count": 32,
+      "color": "#5996ea",
+      "z": -33
+    },
+    {
+      "file": "tok_23.ply",
+      "qid": 33,
+      "count": 32,
+      "color": "#c0ea59",
+      "z": -41
+    },
+    {
+      "file": "tok_24.ply",
+      "qid": 14,
+      "count": 32,
+      "color": "#ea59ea",
+      "z": 5
+    },
+    {
+      "file": "tok_25.ply",
+      "qid": 38,
+      "count": 16416,
+      "color": "#59eabf",
+      "z": 7
+    }
+  ]
+}
