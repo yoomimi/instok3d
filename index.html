@@ -894,25 +894,21 @@ async function boot(){
       initialCameraPosition: [C[0] + 0.7, C[1] - 0.7, -0.6],  // front / above / right 3-4 view
       initialCameraLookAt: C,
       sphericalHarmonicsDegree: 0,
+      enableOptionalEffects: true,          // enables per-scene visibility uniform (flash-free toggle)
     });
   } catch(e){ console.warn('[splat] viewer init failed:', e); setStatus('', true); return; }
 
   const fileFor = i => DEMO.TOKENS[i].file;
   const opt = f => ({ path: BASE + f, splatAlphaRemovalThreshold: 0, progressiveLoad: false });
-  let current = [];                          // files currently loaded, in order
   let hasRest = false;                       // rest.ply may not exist (e.g. all gaussians assigned)
   try { hasRest = (await fetch(BASE + REST, { method: 'HEAD' })).ok; } catch(e){ hasRest = false; }
 
-  async function load(files){
-    const cnt = viewer.getSceneCount ? viewer.getSceneCount() : current.length;
-    if(cnt > 0) await viewer.removeSplatScenes([...Array(cnt).keys()], false);
-    await viewer.addSplatScenes(files.map(opt), false);
-    current = files.slice();
-  }
-
-  // initial: all tokens + background
+  // Load every token scene ONCE (scene index i === DEMO.TOKENS[i]); rest, if any,
+  // is appended last and stays always-visible. Toggling never reloads — we just
+  // flip each scene's visibility uniform, so there is no black flash.
   try {
-    await load([...DEMO.TOKENS.map((_,i)=>fileFor(i)), ...(hasRest ? [REST] : [])]);
+    const files = [...DEMO.TOKENS.map((_, i) => fileFor(i)), ...(hasRest ? [REST] : [])];
+    await viewer.addSplatScenes(files.map(opt), false);
     viewer.start();
   } catch(e){
     console.warn('[splat] load failed (falling back to diorama):', e);
@@ -922,28 +918,16 @@ async function boot(){
 
   // success → take over from the diorama
   DEMO.is3d = true;
+  DEMO.viewer = viewer;
   stage.classList.add('mode3d');
   setStatus('3D · real Gaussian splats', false);
   setTimeout(()=>setStatus('3D · real Gaussian splats', true), 2200);
 
-  // rebuild the scene set to match DEMO.enabled (debounced + serialized)
-  let busy = false, pending = false, dbt = 0;
-  function want(){
-    return [...DEMO.TOKENS.map((_,i)=>i).filter(i=>DEMO.enabled[i]).map(fileFor), ...(hasRest ? [REST] : [])];
-  }
-  function same(a,b){ return a.length===b.length && a.every((x,i)=>x===b[i]); }
-  async function rebuild(){
-    if(busy){ pending = true; return; }
-    const target = want();
-    if(same(target, current)) return;
-    busy = true;
-    setStatus('updating…', false);
-    try { await load(target); } catch(e){ console.warn('[splat] rebuild failed:', e); }
-    busy = false;
-    setStatus('3D · real Gaussian splats', true);
-    if(pending){ pending = false; rebuild(); }
-  }
-  DEMO.apply = ()=>{ clearTimeout(dbt); dbt = setTimeout(rebuild, 140); };
+  // flash-free toggle: flip the scene's visibility (rendered via shader uniform)
+  DEMO.apply = (i, on) => {
+    const sc = viewer.getSplatScene ? viewer.getSplatScene(i) : null;
+    if(sc){ sc.visible = on; }
+  };
 }
 
 boot();
