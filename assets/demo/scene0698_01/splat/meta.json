@@ -52,143 +52,66 @@
     },
     {
       "file": "tok_06.ply",
-      "qid": 83,
-      "count": 544,
+      "qid": 91,
+      "count": 608,
       "color": "#7d59ea",
-      "z": -51
+      "z": -40
     },
     {
       "file": "tok_07.ply",
-      "qid": 91,
-      "count": 608,
-      "color": "#5fea59",
-      "z": -40
-    },
-    {
-      "file": "tok_08.ply",
       "qid": 55,
       "count": 544,
-      "color": "#ea5989",
+      "color": "#5fea59",
       "z": 8
     },
     {
-      "file": "tok_09.ply",
+      "file": "tok_08.ply",
       "qid": 44,
       "count": 320,
-      "color": "#59b4ea",
+      "color": "#ea5989",
       "z": -20
     },
     {
-      "file": "tok_10.ply",
+      "file": "tok_09.ply",
       "qid": 71,
       "count": 224,
-      "color": "#deea59",
+      "color": "#59b4ea",
       "z": -27
     },
     {
-      "file": "tok_11.ply",
+      "file": "tok_10.ply",
       "qid": 45,
       "count": 192,
-      "color": "#cc59ea",
+      "color": "#deea59",
       "z": -24
     },
     {
-      "file": "tok_12.ply",
+      "file": "tok_11.ply",
       "qid": 20,
       "count": 160,
-      "color": "#59eaa1",
+      "color": "#cc59ea",
       "z": -5
     },
     {
-      "file": "tok_13.ply",
-      "qid": 63,
-      "count": 128,
-      "color": "#ea7759",
-      "z": -42
-    },
-    {
-      "file": "tok_14.ply",
+      "file": "tok_12.ply",
       "qid": 74,
       "count": 128,
-      "color": "#5965ea",
+      "color": "#59eaa1",
       "z": -7
     },
     {
-      "file": "tok_15.ply",
+      "file": "tok_13.ply",
       "qid": 93,
       "count": 64,
-      "color": "#8fea59",
+      "color": "#ea7759",
       "z": -1
     },
     {
-      "file": "tok_16.ply",
-      "qid": 35,
-      "count": 96,
-      "color": "#ea59ba",
-      "z": -32
-    },
-    {
-      "file": "tok_17.ply",
-      "qid": 86,
-      "count": 64,
-      "color": "#59e4ea",
-      "z": -12
-    },
-    {
-      "file": "tok_18.ply",
-      "qid": 8,
-      "count": 64,
-      "color": "#eac559",
-      "z": -40
-    },
-    {
-      "file": "tok_19.ply",
-      "qid": 59,
-      "count": 64,
-      "color": "#9b59ea",
-      "z": 4
-    },
-    {
-      "file": "tok_20.ply",
-      "qid": 41,
-      "count": 64,
-      "color": "#59ea71",
-      "z": -48
-    },
-    {
-      "file": "tok_21.ply",
-      "qid": 25,
-      "count": 32,
-      "color": "#ea596b",
-      "z": 17
-    },
-    {
-      "file": "tok_22.ply",
+      "file": "tok_14.ply",
       "qid": 60,
       "count": 32,
-      "color": "#5996ea",
+      "color": "#5965ea",
       "z": -33
-    },
-    {
-      "file": "tok_23.ply",
-      "qid": 33,
-      "count": 32,
-      "color": "#c0ea59",
-      "z": -41
-    },
-    {
-      "file": "tok_24.ply",
-      "qid": 14,
-      "count": 32,
-      "color": "#ea59ea",
-      "z": 5
-    },
-    {
-      "file": "tok_25.ply",
-      "qid": 38,
-      "count": 16416,
-      "color": "#59eabf",
-      "z": 7
     }
   ]
 }
