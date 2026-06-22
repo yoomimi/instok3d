@@ -1,19 +1,19 @@
 {
   "scene": "scene0694_01",
   "num_views": 2,
-  "n_total": 15680,
+  "n_total": 16352,
   "centroid": [
-    0.014591158367693424,
-    -0.010415269993245602,
-    2.678936719894409
+    -0.015172540210187435,
+    -0.03644639253616333,
+    2.7097506523132324
   ],
   "instances": [
     {
       "file": "tok_00.ply",
-      "qid": 62,
-      "count": 3712,
+      "qid": 41,
+      "count": 672,
       "color": "#ea5959",
-      "z": 13
+      "z": -35
     },
     {
       "file": "tok_01.ply",
@@ -52,17 +52,38 @@
     },
     {
       "file": "tok_06.ply",
-      "qid": 6,
-      "count": 896,
+      "qid": 71,
+      "count": 256,
       "color": "#7d59ea",
-      "z": -30
+      "z": -16
     },
     {
-      "file": "rest.ply",
-      "qid": -1,
-      "count": 2080,
-      "color": "#9aa3b8",
-      "z": 0
+      "file": "tok_07.ply",
+      "qid": 11,
+      "count": 352,
+      "color": "#5fea59",
+      "z": 3
+    },
+    {
+      "file": "tok_08.ply",
+      "qid": 60,
+      "count": 288,
+      "color": "#ea5989",
+      "z": -37
+    },
+    {
+      "file": "tok_09.ply",
+      "qid": 76,
+      "count": 192,
+      "color": "#59b4ea",
+      "z": -23
+    },
+    {
+      "file": "tok_10.ply",
+      "qid": 50,
+      "count": 64,
+      "color": "#deea59",
+      "z": -32
     }
   ]
 }

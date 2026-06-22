@@ -569,6 +569,10 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
           <img class="layer" data-tok="4" src="assets/demo/tok_04.png" alt="" />
           <img class="layer" data-tok="5" src="assets/demo/tok_05.png" alt="" />
           <img class="layer" data-tok="6" src="assets/demo/tok_06.png" alt="" />
+          <img class="layer" data-tok="7" src="assets/demo/tok_07.png" alt="" />
+          <img class="layer" data-tok="8" src="assets/demo/tok_08.png" alt="" />
+          <img class="layer" data-tok="9" src="assets/demo/tok_09.png" alt="" />
+          <img class="layer" data-tok="10" src="assets/demo/tok_10.png" alt="" />
         </div>
         <span class="stage-tag">ScanNet · scene0694_01</span>
         <span class="drag-hint">drag to orbit ⟲</span>
@@ -578,7 +582,7 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
       <!-- control panel -->
       <div class="demo-panel">
         <h3>Instance token groups</h3>
-        <p class="hint">7 token groups · drag the scene to rotate · click to toggle each instance</p>
+        <p class="hint">11 token groups · drag the scene to rotate · click to toggle each instance</p>
         <div class="tok-list" id="tokList"><!-- chips injected by JS --></div>
         <div class="demo-actions">
           <button onclick="setAllTokens(true)">All on</button>
@@ -717,13 +721,17 @@ const DEMO = window.DEMO = {
   // names are "Group N (instance)" — the model produces grouping, the parenthetical
   // is a human read of what that group covers (not a semantic prediction).
   TOKENS: [
-    {file:'tok_00.ply', id:'062', name:'Group 1', color:'#ea5959', z:13},
-    {file:'tok_01.ply', id:'028', name:'Group 2', color:'#5983ea', z:-7},
-    {file:'tok_02.ply', id:'091', name:'Group 3', color:'#aeea59', z:-27},
-    {file:'tok_03.ply', id:'055', name:'Group 4', color:'#ea59d8', z:-12},
-    {file:'tok_04.ply', id:'099', name:'Group 5', color:'#59ead2', z:36},
-    {file:'tok_05.ply', id:'034', name:'Group 6', color:'#eaa759', z:43},
-    {file:'tok_06.ply', id:'006', name:'Group 7', color:'#7d59ea', z:-30},
+    {file:'tok_00.ply', id:'041', name:'Group 1',  color:'#ea5959', z:-35},
+    {file:'tok_01.ply', id:'028', name:'Group 2',  color:'#5983ea', z:-7},
+    {file:'tok_02.ply', id:'091', name:'Group 3',  color:'#aeea59', z:-27},
+    {file:'tok_03.ply', id:'055', name:'Group 4',  color:'#ea59d8', z:-12},
+    {file:'tok_04.ply', id:'099', name:'Group 5',  color:'#59ead2', z:36},
+    {file:'tok_05.ply', id:'034', name:'Group 6',  color:'#eaa759', z:43},
+    {file:'tok_06.ply', id:'071', name:'Group 7',  color:'#7d59ea', z:-16},
+    {file:'tok_07.ply', id:'011', name:'Group 8',  color:'#5fea59', z:3},
+    {file:'tok_08.ply', id:'060', name:'Group 9',  color:'#ea5989', z:-37},
+    {file:'tok_09.ply', id:'076', name:'Group 10', color:'#59b4ea', z:-23},
+    {file:'tok_10.ply', id:'050', name:'Group 11', color:'#deea59', z:-32},
   ],
   enabled: [], is3d: false, apply: null,
 };
@@ -848,8 +856,8 @@ import * as GaussianSplats3D from '@mkkellogg/gaussian-splats-3d';
 
 const BASE = 'assets/demo/splat/';
 const REST = 'rest.ply';                       // background (non-token) gaussians, always on
-// scene0694_01 bbox centroid (fog token dropped) — used to frame the initial camera
-const C = [0.015, -0.010, 2.679];
+// scene0694_01 bbox centroid (11 selected instances) — used to frame the initial camera
+const C = [-0.015, -0.036, 2.710];
 
 function hasWebGL2(){
   try { return !!document.createElement('canvas').getContext('webgl2'); }
@@ -892,6 +900,8 @@ async function boot(){
   const fileFor = i => DEMO.TOKENS[i].file;
   const opt = f => ({ path: BASE + f, splatAlphaRemovalThreshold: 0, progressiveLoad: false });
   let current = [];                          // files currently loaded, in order
+  let hasRest = false;                       // rest.ply may not exist (e.g. all gaussians assigned)
+  try { hasRest = (await fetch(BASE + REST, { method: 'HEAD' })).ok; } catch(e){ hasRest = false; }
 
   async function load(files){
     const cnt = viewer.getSceneCount ? viewer.getSceneCount() : current.length;
@@ -902,7 +912,7 @@ async function boot(){
 
   // initial: all tokens + background
   try {
-    await load([...DEMO.TOKENS.map((_,i)=>fileFor(i)), REST]);
+    await load([...DEMO.TOKENS.map((_,i)=>fileFor(i)), ...(hasRest ? [REST] : [])]);
     viewer.start();
   } catch(e){
     console.warn('[splat] load failed (falling back to diorama):', e);
@@ -919,7 +929,7 @@ async function boot(){
   // rebuild the scene set to match DEMO.enabled (debounced + serialized)
   let busy = false, pending = false, dbt = 0;
   function want(){
-    return [...DEMO.TOKENS.map((_,i)=>i).filter(i=>DEMO.enabled[i]).map(fileFor), REST];
+    return [...DEMO.TOKENS.map((_,i)=>i).filter(i=>DEMO.enabled[i]).map(fileFor), ...(hasRest ? [REST] : [])];
   }
   function same(a,b){ return a.length===b.length && a.every((x,i)=>x===b[i]); }
   async function rebuild(){
