@@ -920,7 +920,7 @@ function hasWebGL2(){
   catch(e){ return false; }
 }
 
-const DEMO = window.DEMO;
+const demo = window.DEMO;
 const stage  = document.getElementById('demoStage');
 const mount  = document.getElementById('splatMount');
 const status = document.getElementById('splatStatus');
@@ -947,37 +947,37 @@ function makeViewer(C){
 
 // (Re)load a scene into a fresh viewer. Toggling never reloads — we just flip
 // each scene's visibility uniform (no black flash). Scene index i === tokens[i].
-DEMO.load3d = async (sc)=>{
+demo.load3d = async (sc)=>{
   setStatus('loading 3D splats…', false);
-  if(DEMO.viewer){ try { DEMO.viewer.dispose(); } catch(e){} DEMO.viewer = null; mount.innerHTML = ''; }
+  if(demo.viewer){ try { demo.viewer.dispose(); } catch(e){} demo.viewer = null; mount.innerHTML = ''; }
   const v = makeViewer(sc.C);
   const base = 'assets/demo/' + sc.id + '/splat/';
   const opt = t => ({ path: base + t.file, splatAlphaRemovalThreshold: 0, progressiveLoad: false });
   await v.addSplatScenes(sc.tokens.map(opt), false);
   v.start();
-  DEMO.viewer = v;
-  DEMO.apply = (i, on)=>{ const s = v.getSplatScene ? v.getSplatScene(i) : null; if(s) s.visible = on; };
-  (DEMO.TOKENS || []).forEach((t,i)=>{ if(DEMO.enabled[i] === false){ const s=v.getSplatScene(i); if(s) s.visible=false; } });
+  demo.viewer = v;
+  demo.apply = (i, on)=>{ const s = v.getSplatScene ? v.getSplatScene(i) : null; if(s) s.visible = on; };
+  (demo.TOKENS || []).forEach((t,i)=>{ if(demo.enabled[i] === false){ const s=v.getSplatScene(i); if(s) s.visible=false; } });
   setStatus('3D · real Gaussian splats', false);
-  clearTimeout(DEMO._st); DEMO._st = setTimeout(()=>setStatus('', true), 2000);
+  clearTimeout(demo._st); demo._st = setTimeout(()=>setStatus('', true), 2000);
 };
 
 async function boot(){
-  if(!DEMO || !stage || !mount || !DEMO.SCENES) return;
+  if(!demo || !stage || !mount || !demo.SCENES) return;
   if(location.protocol === 'file:'){            // file:// blocks fetch() of local .ply
     setStatus('open via a local server for 3D splats', false);
     return;                                     // keep the diorama fallback
   }
   if(!hasWebGL2()){ setStatus('WebGL2 unavailable — showing 2.5D preview', false); return; }
 
-  DEMO.is3d = true;
+  demo.is3d = true;
   stage.classList.add('mode3d');
   try {
-    await DEMO.load3d(DEMO.SCENES[DEMO.active || 0]);
+    await demo.load3d(demo.SCENES[demo.active || 0]);
   } catch(e){
     console.warn('[splat] init load failed, diorama fallback:', e);
-    DEMO.is3d = false; DEMO.load3d = null; stage.classList.remove('mode3d'); setStatus('', true);
-    DEMO.selectScene && DEMO.selectScene(DEMO.active || 0);
+    demo.is3d = false; demo.load3d = null; stage.classList.remove('mode3d'); setStatus('', true);
+    demo.selectScene && demo.selectScene(demo.active || 0);
   }
 }
 
