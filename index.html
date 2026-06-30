@@ -131,6 +131,7 @@ h2.section-title{
   background:linear-gradient(180deg,#ffffff 0%, #c4c9da 100%);
   -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
 }
+.hero h1 .nobreak{white-space:nowrap}
 .hero h1 .grad{
   background:linear-gradient(110deg,var(--accent),var(--accent-3) 60%,var(--accent-2));
   -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
@@ -427,7 +428,7 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
 
 <!-- ============ HERO ============ -->
 <header class="hero">
-  <h1>Scenes as Objects, Not Primitives:<br><span class="grad">Instance-Structured 3D Tokenization</span> from Unposed Views</h1>
+  <h1><span class="nobreak">Scenes as Objects, Not Primitives:</span><br><span class="grad">Instance-Structured 3D Tokenization</span> from Unposed Views</h1>
   <p class="subtitle">A feed-forward framework that decomposes a scene into compact, object-centric 3D token groups — making instances a native interface of the 3D representation.</p>
 
   <div class="authors">
