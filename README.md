@@ -2,7 +2,7 @@
 
 **Instance-Structured 3D Tokenization from Unposed Views** (NeurIPS 2026)
 
-Mijin Yoo\*, In Cho\*, Subin Jeon, Jiwoo Lee, Eunbyung Park, Seon Joo Kim
+[Mijin Yoo](https://yoomimi.github.io/)\*, [In Cho](https://sites.google.com/view/im-join)\*, Subin Jeon, Jiwoo Lee, Eunbyung Park, Seon Joo Kim
 &nbsp;·&nbsp; Yonsei University, Seoul National University &nbsp;·&nbsp; \*equal contribution
 
 [Paper](https://arxiv.org/abs/2606.29513) &nbsp;|&nbsp; [Project page](https://yoomimi.github.io/instok3d) &nbsp;|&nbsp; [Models](https://huggingface.co/mynameisyoomimi/instok3d)
@@ -173,8 +173,6 @@ learning-rate decay, gradient clipping 0.5, `bf16-mixed` precision, λ_lpips = 0
 linear warm-up of λ_seg over the first 10 epochs. The paper runs used 4 GPUs with the
 per-GPU batch size of the configs; keep `number of GPUs x dm.batch_size` constant when
 changing either. In step 0 the backbone is trained with 0.1 x the listed learning rate.
-Validation during training, and with it the selection of the best checkpoint, runs on the
-test split of the setting.
 
 | | ScanNet 2 views | ScanNet 8 views | RealEstate10K |
 |---|---|---|---|
@@ -183,7 +181,6 @@ test split of the setting.
 | Step 1: anchors K / offset bound | 512 / 0.1 | 1024 / 0.5 | 512 / 0.1 |
 | Step 2: epochs / batch per GPU / lr | 200 / 16 / 1e-4 | 200 / 16 / 1e-4 | 200 / 32 / 2e-4 |
 | Step 2: λ_seg / offset bound | 0.1 / 0.1 | 0.5 / 1.0 | 0.1 / 0.1 |
-| Step 2: checkpoint selection | PSNR | AP50, then PSNR | PSNR |
 
 Useful options (see [docs/CONFIG.md](docs/CONFIG.md)): `e.gpus=N` (number of GPUs),
 `dm.batch_size=N` (per GPU), `resume=true|best|last|null`, `e.debug=true` (one training
