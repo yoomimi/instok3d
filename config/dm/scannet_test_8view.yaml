@@ -1,0 +1,4 @@
+# 40-scene ScanNet test split, 8 context views + 7 target views (one sample per scene).
+_base_: scannet_test_2view
+dataset:
+  num_views: 8

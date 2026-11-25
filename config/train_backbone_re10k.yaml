@@ -1,0 +1,10 @@
+# Step 0: fine-tune VGGT with a pixel-aligned Gaussian head (RealEstate10K, 2 views).
+_base_: train
+
+dm: re10k_backbone
+solver: backbone_finetune_re10k
+model: pixel_aligned
+backbone: vggt_intr_finetune
+
+trainer:
+  max_epochs: 100

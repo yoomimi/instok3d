@@ -1,0 +1,10 @@
+# Stage 1: anchor tokens with the rendering loss only (ScanNet + ScanNet++, 2 views).
+_base_: train
+
+dm: scannet_2view_recon
+solver: recon
+model: recon
+backbone: vggt_intr_scannet_2view
+
+trainer:
+  max_epochs: 40

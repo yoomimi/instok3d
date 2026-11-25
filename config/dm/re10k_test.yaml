@@ -1,0 +1,31 @@
+# RealEstate10K test set with the pixelSplat / MVSplat evaluation index.
+_target_: instok3d.data.unified.UnifiedSceneDataModule
+batch_size: 1
+eval_batch_size: 1
+num_workers: 4
+input_hw: [256, 256]
+target_hw: [256, 256]
+
+view_samplers:
+  paired_2view_re10k:
+    kind: re10k
+    min_gap: 45
+    max_gap: 90
+    eval_index_path: assets/evaluation_index_re10k.json
+
+data_sources:
+  - name: re10k
+    view_sampler: paired_2view_re10k
+    dataset_root: datasets/re10k
+    valid_list_path: assets/re10k_valid.json
+    image_resolution: 256
+    instance_mask_dir_fmt: masks_{split}
+    instance_mask_void_id: 0
+    phases: [val, test]
+
+dataset:
+  _target_: .UnifiedSceneDataset
+  _provider_: true
+  num_views: 2
+  normalize_cameras: true
+  use_instance_mask: true

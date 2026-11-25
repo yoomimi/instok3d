@@ -1,0 +1,4 @@
+_base_: tokenizer
+use_instance_queries: false
+num_anchor_points: 1024
+offset_bound: 0.5

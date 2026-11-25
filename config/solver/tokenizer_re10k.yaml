@@ -1,0 +1,2 @@
+_base_: tokenizer
+lr: 2.0e-4

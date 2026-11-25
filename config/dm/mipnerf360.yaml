@@ -1,0 +1,12 @@
+# Mip-NeRF 360, 2 context views + 1 target view (zero-shot evaluation).
+_target_: instok3d.data.mipnerf360_test.MipNeRF360TestDataModule
+batch_size: 1
+eval_batch_size: 1
+num_workers: 4
+dataset_root: datasets/mipnerf360
+dataset:
+  _target_: .MipNeRF360TestDataset
+  _provider_: true
+  target_hw: [256, 256]
+  image_subdir: images_4
+  baseline_target: 0.25

@@ -1,0 +1,17 @@
+# ScanNet, 8 context views (Table 2).
+#   python evaluate.py eval_scannet_8view e.load=logs/<run>
+dm: scannet_test_8view
+solver: tokenizer_8view
+model: tokenizer_8view
+backbone: vggt_intr_scannet_8view
+eval: unified_vis
+
+is_best: true         # for training runs: best-score checkpoint (true) or last.ckpt (false)
+data_indices: null    # e.g. 0,8,16 or 0-39; null evaluates every sample
+stage: test
+seed: 0
+gpus: 1
+
+checkpoint:
+  save_dir: checkpoints
+  mode: max

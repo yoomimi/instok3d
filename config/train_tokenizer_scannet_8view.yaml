@@ -1,0 +1,10 @@
+# Stage 2: joint reconstruction and grouping (ScanNet, 8 views). Pass init_from=<Stage-1 run>.
+_base_: train
+
+dm: scannet_8view
+solver: tokenizer_8view
+model: tokenizer_8view
+backbone: vggt_intr_scannet_8view
+
+trainer:
+  max_epochs: 200

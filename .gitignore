@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.so
+build/
+.idea/
+.vscode/
+.ipynb_checkpoints/
+.DS_Store
+
+# data, weights and run outputs
+/datasets
+/pretrained
+/cache
+/logs
+/outputs
+/secrets
+/wandb
+lightning_logs/
+*.ckpt

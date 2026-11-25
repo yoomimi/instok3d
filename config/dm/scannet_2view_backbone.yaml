@@ -1,0 +1,2 @@
+_base_: scannet_2view_recon
+batch_size: 32

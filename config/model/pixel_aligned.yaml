@@ -1,0 +1,5 @@
+# Auxiliary pixel-aligned Gaussian head, used only to fine-tune the backbone.
+_target_: instok3d.models.pixel_aligned.PixelAlignedReconstructionModel
+patch_size: 16
+sh_degree: 0
+rendering_resolution: 256

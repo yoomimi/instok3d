@@ -1,0 +1,5 @@
+_target_: instok3d.models.feature_lifting.FeatureLiftingModel
+recon_model_path: pretrained/instok3d_scannet_2view
+semantic_dim: 512
+anchor_low_dim: 8
+feature_mode: all    # all | group | anchor

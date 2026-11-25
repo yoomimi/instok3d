@@ -1,0 +1,4 @@
+_base_: backbone_finetune
+weight_decay: 0.05
+warmup_epochs: 1.0
+min_lr: 2.0e-6

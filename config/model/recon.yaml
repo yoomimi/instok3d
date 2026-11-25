@@ -1,0 +1,4 @@
+# Stage 1: anchor tokens only (no grouping head).
+_base_: tokenizer
+use_instance_queries: false
+num_anchor_points: 512

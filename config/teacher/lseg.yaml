@@ -1,0 +1,4 @@
+_target_: instok3d.teachers.lseg.LSegTeacher
+half_res: true
+pretrained_path: pretrained/lseg/demo_e200.ckpt
+clip_cache_dir: pretrained/clip

@@ -1,0 +1,18 @@
+# Feature lifting on ScanNet, 2 context views (Table 1 feature columns, Table 4).
+#   python evaluate.py eval_feature_lifting e.load=pretrained/instok3d_scannet_2view_lseg
+dm: scannet_test_semantic
+solver: semantic
+model: feature_lifting
+backbone: vggt_intr_scannet_2view
+teacher: lseg
+eval: semantic
+
+is_best: true         # for training runs: best-score checkpoint (true) or last.ckpt (false)
+data_indices: null    # e.g. 0,8,16 or 0-39; null evaluates every sample
+stage: test
+seed: 0
+gpus: 1
+
+checkpoint:
+  save_dir: checkpoints
+  mode: max

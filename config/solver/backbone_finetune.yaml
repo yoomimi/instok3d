@@ -1,0 +1,9 @@
+_target_: instok3d.solvers.recon.ReconSolver
+lr: 2.0e-4
+backbone_lr_scale: 0.1
+weight_decay: 0.02
+warmup_epochs: 0.5
+min_lr: 1.0e-6
+coeff_perceptual: 0.05
+val_vis_interval: 20
+track_metric: psnr

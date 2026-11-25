@@ -1,0 +1,5 @@
+# python run_script.py scripts/extract_backbone_weights.py run=<run dir or .ckpt> output=<file.safetensors>
+
+run: null       # run directory of a backbone fine-tuning run, or one of its checkpoints
+output: null    # .safetensors file to write
+is_best: true   # for a run directory: best-score checkpoint (true) or last.ckpt (false)

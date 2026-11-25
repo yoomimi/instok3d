@@ -1,0 +1,3 @@
+_base_: recon
+lr: 1.0e-4
+weight_decay: 0.05

@@ -1,0 +1,10 @@
+# VGGT-1B with 16-px patches and an intrinsics token, fine-tuned end to end.
+_target_: instok3d.backbones.vggt_intr.VGGTIntrBackbone
+img_size: 256
+patch_size: 16
+embed_dim: 1024
+input_hw: [256, 256]
+freeze: false
+finetuning_heads: [point]
+finetuning_num_layers: -1
+finetuned_weights_path: null

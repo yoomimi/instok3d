@@ -1,0 +1,11 @@
+# Feature lifting: distil LSeg features into the token groups of a frozen tokenizer.
+_base_: train
+
+dm: feature_lifting
+solver: semantic
+model: feature_lifting
+backbone: vggt_intr_scannet_2view
+teacher: lseg
+
+trainer:
+  max_epochs: 40

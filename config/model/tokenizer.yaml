@@ -1,0 +1,17 @@
+# Instance-structured tokenizer: K anchor tokens, N_g Gaussians per anchor, L group tokens.
+_target_: instok3d.models.anchor_recon.AnchorReconstructionModel
+patch_size: 16
+embed_dim: 1024
+num_heads: 16
+num_anchor_points: 1024
+num_encoder_layers: 6
+num_gaussians_per_anchor: 32
+sh_degree: 2
+offset_bound: 0.1
+rendering_resolution: 256
+
+use_instance_queries: true
+num_instance_queries: 100
+num_instance_layers: 4
+assignment_dim: 384
+freeze_non_instance_modules: false

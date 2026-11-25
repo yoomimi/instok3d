@@ -1,0 +1,23 @@
+# PyTorch, gsplat and external/pointops are installed by setup.sh.
+numpy==1.26.4
+lightning==2.5.5
+pytorch-lightning==2.5.5
+torchmetrics==1.8.2
+omegaconf==2.3.0
+einops==0.8.1
+timm==1.0.20
+safetensors==0.6.2
+huggingface-hub==0.35.1
+h5py==3.14.0
+opencv-python==4.11.0.86
+pillow==11.3.0
+scipy==1.15.3
+pandas==2.3.3
+PyYAML==6.0.3
+tqdm==4.67.1
+lpips==0.1.4
+wandb==0.22.1
+# OpenAI CLIP (LSeg text encoder, feature lifting only) and its dependencies
+ftfy
+regex
+setuptools==68.0.0

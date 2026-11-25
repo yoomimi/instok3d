@@ -1,0 +1,5 @@
+# Source / target view mIoU and pixel accuracy of the lifted features.
+_target_: instok3d.evaluators.semantic.SemanticEvaluator
+output_subdir: outputs/semantic
+rgb_resolution: 256
+feature_resolution: 128

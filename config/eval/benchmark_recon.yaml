@@ -1,0 +1,5 @@
+# Target-view PSNR / SSIM / LPIPS only.
+_target_: instok3d.evaluators.benchmark_recon.BenchmarkReconEvaluator
+pose_align_steps: 100
+pose_align_lr: 5.0e-3
+output_subdir: outputs/benchmark_recon

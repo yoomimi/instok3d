@@ -1,0 +1,10 @@
+# Stage 1: anchor tokens with the rendering loss only (RealEstate10K, 2 views).
+_base_: train
+
+dm: re10k_recon
+solver: recon_re10k
+model: recon
+backbone: vggt_intr_re10k
+
+trainer:
+  max_epochs: 50

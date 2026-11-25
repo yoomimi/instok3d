@@ -1,0 +1,5 @@
+# Target-view PSNR / SSIM / LPIPS and class-agnostic mask AP, with qualitative outputs.
+_target_: instok3d.evaluators.unified_vis.UnifiedVisEvaluator
+pose_align_steps: 100
+pose_align_lr: 5.0e-3
+save_images: true

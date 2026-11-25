@@ -1,0 +1,15 @@
+# 40-scene ScanNet test split, 2 context views + 1 target view (320 samples).
+_target_: instok3d.data.scannet_lsm_test.ScanNetLSMTestDataModule
+batch_size: 1
+eval_batch_size: 1
+num_workers: 4
+dataset_root: datasets/scannet_test
+dataset:
+  _target_: .ScanNetLSMTestDataset
+  _provider_: true
+  target_hw: [256, 256]
+  num_views: 2
+  crop_mode: pp_square    # pp_square | dust3r
+  invalid_json_path: assets/scannet_invalid_frames.json
+  instance_mask_h5_root: datasets/scannetv2/gt_instance_mask
+  instance_mask_void_id: 0

@@ -1,0 +1,26 @@
+engine:
+  seed: 0
+  gpus: -1
+
+debugging:
+  batch_size: 2
+
+trainer:
+  max_epochs: 200
+  precision: bf16-mixed
+  accumulate_grad_batches: 1
+  gradient_clip_val: 0.5
+  check_val_every_n_epoch: 1
+  log_every_n_steps: 10
+
+logging:
+  logger: wandb
+  logger_config_path: secrets/wandb.yaml
+  project: instok3d
+
+resume: true
+init_from: null
+
+checkpoint:
+  save_top_k: 1
+  mode: max

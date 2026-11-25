@@ -1,0 +1,72 @@
+# Stage 2 on RealEstate10K with SAM2 pseudo instance masks; validation on 200 test scenes.
+_target_: instok3d.data.multi.ComposedTrainEvalDataModule
+batch_size: 32
+eval_batch_size: -1
+train_dm_name: re10k
+eval_display: eval/re10k_test
+val_include_train: false
+
+train_dm:
+  _target_: instok3d.data.unified.UnifiedSceneDataModule
+  batch_size: ${..batch_size}
+  eval_batch_size: ${..eval_batch_size}
+  num_workers: 8
+  input_hw: [256, 256]
+  target_hw: [256, 256]
+
+  view_samplers:
+    paired_2view_re10k:
+      kind: re10k
+      min_gap: 45
+      max_gap: 90
+
+  data_sources:
+    - name: re10k
+      view_sampler: paired_2view_re10k
+      dataset_root: datasets/re10k
+      valid_list_path: assets/re10k_valid.json
+      image_resolution: 256
+      instance_mask_dir_fmt: masks_{split}
+      instance_mask_void_id: 0
+      repeat: 8
+      phases: [train]
+
+  dataset:
+    _target_: .UnifiedSceneDataset
+    _provider_: true
+    num_views: 2
+    normalize_cameras: true
+    use_instance_mask: true
+
+eval_dm:
+  _target_: instok3d.data.unified.UnifiedSceneDataModule
+  batch_size: ${..batch_size}
+  eval_batch_size: ${..eval_batch_size}
+  num_workers: 8
+  input_hw: [256, 256]
+  target_hw: [256, 256]
+
+  view_samplers:
+    paired_2view_re10k:
+      kind: re10k
+      min_gap: 45
+      max_gap: 90
+      eval_index_path: assets/evaluation_index_re10k.json
+      max_eval_scenes: 200
+
+  data_sources:
+    - name: re10k
+      view_sampler: paired_2view_re10k
+      dataset_root: datasets/re10k
+      valid_list_path: assets/re10k_valid.json
+      image_resolution: 256
+      instance_mask_dir_fmt: masks_{split}
+      instance_mask_void_id: 0
+      phases: [val, test]
+
+  dataset:
+    _target_: .UnifiedSceneDataset
+    _provider_: true
+    num_views: 2
+    normalize_cameras: true
+    use_instance_mask: true

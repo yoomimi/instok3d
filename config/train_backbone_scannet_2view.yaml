@@ -1,0 +1,10 @@
+# Step 0: fine-tune VGGT with a pixel-aligned Gaussian head (ScanNet + ScanNet++, 2 views).
+_base_: train
+
+dm: scannet_2view_backbone
+solver: backbone_finetune
+model: pixel_aligned
+backbone: vggt_intr_finetune
+
+trainer:
+  max_epochs: 20

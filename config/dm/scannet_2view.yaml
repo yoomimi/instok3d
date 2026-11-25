@@ -1,0 +1,57 @@
+# Stage 2, 2 views: ScanNet with instance masks; validation on the ScanNet val scenes and
+# on the 40-scene test split.
+_target_: instok3d.data.multi.ComposedTrainEvalDataModule
+batch_size: 16
+eval_batch_size: -1
+train_dm_name: scannet
+eval_display: eval/scannet_test
+val_include_train: true
+
+train_dm:
+  _target_: instok3d.data.unified.UnifiedSceneDataModule
+  batch_size: ${..batch_size}
+  eval_batch_size: ${..eval_batch_size}
+  num_workers: 8
+  input_hw: [256, 256]
+  target_hw: [256, 256]
+
+  view_samplers:
+    paired_2view_scannet:
+      kind: scannet
+      llff_hold: 8
+      test_ids: [1, 4]
+
+  data_sources:
+    - name: scannet
+      view_sampler: paired_2view_scannet
+      dataset_root: datasets/scannetv2
+      gt_subdir: gt_h5
+      instance_mask_subdir: gt_instance_mask
+      instance_mask_void_id: 0
+      invalid_json_path: assets/scannet_invalid_frames.json
+      split_last_n_val: 50
+      frame_load_stride: 10
+      repeat: 8
+      phases: [train, val]
+
+  dataset:
+    _target_: .UnifiedSceneDataset
+    _provider_: true
+    num_views: 2
+    use_instance_mask: true
+
+eval_dm:
+  _target_: instok3d.data.scannet_lsm_test.ScanNetLSMTestDataModule
+  batch_size: 1
+  eval_batch_size: 1
+  num_workers: 8
+  dataset_root: datasets/scannet_test
+  dataset:
+    _target_: .ScanNetLSMTestDataset
+    _provider_: true
+    target_hw: [256, 256]
+    num_views: 2
+    crop_mode: pp_square
+    invalid_json_path: assets/scannet_invalid_frames.json
+    instance_mask_h5_root: datasets/scannetv2/gt_instance_mask
+    instance_mask_void_id: 0

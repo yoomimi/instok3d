@@ -1,0 +1,3 @@
+# Writes the predicted Gaussians and token groups as 3D Gaussian Splatting .ply files.
+_target_: instok3d.evaluators.export_gaussians.GaussianExportEvaluator
+output_subdir: outputs/gaussians

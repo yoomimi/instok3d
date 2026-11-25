@@ -1,0 +1,17 @@
+# Zero-shot Mip-NeRF 360 with a 2-view Stage-1 model (Table 6).
+#   python evaluate.py eval_mipnerf360 e.load=logs/<run>
+dm: mipnerf360
+solver: recon
+model: recon
+backbone: vggt_intr_scannet_2view
+eval: mipnerf360
+
+is_best: true         # for training runs: best-score checkpoint (true) or last.ckpt (false)
+data_indices: null    # e.g. 0,8,16 or 0-39; null evaluates every sample
+stage: test
+seed: 0
+gpus: 1
+
+checkpoint:
+  save_dir: checkpoints
+  mode: max

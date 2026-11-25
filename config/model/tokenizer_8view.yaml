@@ -1,0 +1,2 @@
+_base_: tokenizer
+offset_bound: 1.0

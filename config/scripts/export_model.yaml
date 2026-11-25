@@ -1,0 +1,5 @@
+# python run_script.py scripts/export_model.py run=logs/<run> output=pretrained/<name>
+
+run: null       # training run directory (config.yaml + checkpoints/)
+output: null    # model directory to write
+is_best: true   # best-score checkpoint (true) or last.ckpt (false)

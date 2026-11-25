@@ -1,0 +1,9 @@
+_target_: instok3d.solvers.semantic.SemanticSolver
+lr: 1.0e-4
+weight_decay: 0.05
+warmup_epochs: 1.0
+min_lr: 1.0e-6
+pixel_loss_weight: 1.0
+instance_shared_weight: 1.0
+val_vis_interval: 1
+track_metric: mIoU

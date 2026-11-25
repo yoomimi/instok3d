@@ -1,0 +1,13 @@
+# 40-scene ScanNet test split with semantic labels (feature-lifting mIoU / accuracy).
+_target_: instok3d.data.scannet_lsm_test.ScanNetLSMTestDataModule
+batch_size: 1
+eval_batch_size: 1
+num_workers: 4
+dataset_root: datasets/scannet_test
+dataset:
+  _target_: .ScanNetLSMTestDataset
+  _provider_: true
+  target_hw: [256, 256]
+  num_views: 2
+  crop_mode: dust3r
+  labels_subdir: labels

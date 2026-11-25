@@ -1,0 +1,10 @@
+# Stage 2: joint reconstruction and grouping (RealEstate10K, SAM2 pseudo-labels). Pass init_from=<Stage-1 run>.
+_base_: train
+
+dm: re10k
+solver: tokenizer_re10k
+model: tokenizer
+backbone: vggt_intr_re10k
+
+trainer:
+  max_epochs: 200

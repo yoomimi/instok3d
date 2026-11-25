@@ -1,0 +1,2 @@
+_base_: vggt_intr_scannet_2view
+finetuned_weights_path: pretrained/backbones/vggt_intr_re10k.safetensors

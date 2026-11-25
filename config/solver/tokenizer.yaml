@@ -1,0 +1,13 @@
+_target_: instok3d.solvers.recon_w_seg.ReconSegSolver
+lr: 1.0e-4
+weight_decay: 0.05
+warmup_epochs: 2.5
+min_lr: 1.0e-6
+coeff_perceptual: 0.05
+
+seg_loss_weight: 0.1
+seg_loss_warmup_epochs: 10
+seg_loss_dice_weight: 1.0
+seg_loss_bce_weight: 1.0
+
+track_metric: psnr

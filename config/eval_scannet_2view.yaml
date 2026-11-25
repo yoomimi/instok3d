@@ -1,0 +1,18 @@
+# ScanNet, 2 context views (Table 1 reconstruction, Table 3).
+#   python evaluate.py eval_scannet_2view e.load=pretrained/instok3d_scannet_2view
+dm: scannet_test_2view
+solver: tokenizer
+model: tokenizer
+backbone: vggt_intr_scannet_2view
+eval: unified_vis
+
+is_best: true         # for training runs: best-score checkpoint (true) or last.ckpt (false)
+# First triplet of each of the 40 scenes; null evaluates all 320 triplets.
+data_indices: "0,8,16,24,32,40,48,56,64,72,80,88,96,104,112,120,128,136,144,152,160,168,176,184,192,200,208,216,224,232,240,248,256,264,272,280,288,296,304,312"
+stage: test
+seed: 0
+gpus: 1
+
+checkpoint:
+  save_dir: checkpoints
+  mode: max

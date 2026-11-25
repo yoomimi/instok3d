@@ -1,0 +1,17 @@
+# Export the Gaussians / token groups of test samples as .ply files.
+#   python evaluate.py export_gaussians e.load=pretrained/instok3d_scannet_2view data_indices=0,8
+dm: scannet_test_2view
+solver: tokenizer
+model: tokenizer
+backbone: vggt_intr_scannet_2view
+eval: export_gaussians
+
+is_best: true
+data_indices: "0"
+stage: test
+seed: 0
+gpus: 1
+
+checkpoint:
+  save_dir: checkpoints
+  mode: max

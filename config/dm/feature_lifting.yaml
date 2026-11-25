@@ -1,0 +1,46 @@
+# Feature lifting, 2 views: ScanNet (validation with semantic labels on the 40 test scenes)
+# and ScanNet++ (RGB only).
+_target_: instok3d.data.unified.UnifiedSceneDataModule
+batch_size: 16
+eval_batch_size: -1
+num_workers: 8
+input_hw: [256, 256]
+target_hw: [256, 256]
+
+view_samplers:
+  standard_8view:
+    num_views: 2
+    train_strides: [2, 4]
+    eval_stride: 2
+
+data_sources:
+  - name: scannet
+    view_sampler: standard_8view
+    dataset_root: datasets/scannetv2
+    gt_subdir: gt_h5
+    instance_mask_subdir: gt_instance_mask
+    instance_mask_void_id: 0
+    invalid_json_path: assets/scannet_invalid_frames.json
+    split_last_n_val: 50
+    test_scene_list_file: assets/scannet_test_scenes.txt
+    val_use_test_scene_list: true
+    frame_load_stride: 10
+    train_epoch_size: 5000
+    phases: [train, val]
+    labels_root: datasets/scannet_test
+    labels_subdir: labels
+    labels_frame_fmt: '{:06d}'
+  - name: scannetpp
+    view_sampler: standard_8view
+    dataset_root: datasets/scannetpp
+    gt_subdir: scannetpph5_256
+    val_scene_list_path: nvs_sem_val.txt
+    frame_load_stride: 1
+    train_epoch_size: 5000
+    phases: [train]
+
+dataset:
+  _target_: .UnifiedSceneDataset
+  _provider_: true
+  num_views: 2
+  use_instance_mask: true

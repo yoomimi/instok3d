@@ -1,0 +1,3 @@
+_base_: tokenizer
+seg_loss_weight: 0.5
+track_metric: ap50+psnr
