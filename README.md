@@ -17,8 +17,6 @@ tokens it owns, and every anchor token decodes into a set of 3D Gaussians. Recon
 class-agnostic 3D instance grouping and open-vocabulary feature lifting all operate on the
 same token groups, and training needs only 2D supervision (RGB images and 2D instance masks).
 
-This repository contains the training and evaluation code and the pretrained models of
-the paper.
 
 ## Installation
 
