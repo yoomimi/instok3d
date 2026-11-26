@@ -3,7 +3,9 @@
 **Instance-Structured 3D Tokenization from Unposed Views** (NeurIPS 2026)
 
 [Mijin Yoo](https://yoomimi.github.io/)\*, [In Cho](https://sites.google.com/view/im-join)\*, [Subin Jeon](https://sites.google.com/yonsei.ac.kr/subinjeon/home), [Jiwoo Lee](https://gibsonlee01.github.io/), [Eunbyung Park](https://silverbottlep.github.io/), [Seon Joo Kim](https://www.ciplab.kr/members/professor)
-&nbsp;·&nbsp; Yonsei University, Seoul National University &nbsp;·&nbsp; \*equal contribution
+
+
+Yonsei University, Seoul National University &nbsp;·&nbsp; \*equal contribution
 
 [Paper](https://arxiv.org/abs/2606.29513) &nbsp;|&nbsp; [Project page](https://yoomimi.github.io/instok3d) &nbsp;|&nbsp; [Models](https://huggingface.co/mynameisyoomimi/instok3d)
 
